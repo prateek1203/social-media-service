@@ -45,8 +45,9 @@ public class UserTest {
 
     @Test
     public void shouldAddThePost() {
-        unit.setPostIds(List.of(1L));
-        assertThat(unit.getPostIds().get(0)).isEqualTo(1L);
+        unit.setPostIds(Set.of(1L));
+        unit.getPostIds().stream().findFirst().ifPresent((id) -> assertThat(id).isEqualTo(1L));
+
     }
 
     @Test

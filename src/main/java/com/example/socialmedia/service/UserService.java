@@ -1,26 +1,24 @@
 package com.example.socialmedia.service;
 
+import com.example.socialmedia.entity.User;
 import com.example.socialmedia.exception.RequiredParameterMissingException;
 import com.example.socialmedia.exception.UserNotFoundException;
-import com.example.socialmedia.entity.User;
 import com.example.socialmedia.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User createUser(String userName, String email) {
-        if (Strings.isBlank(userName) || Strings.isBlank(email)){
+        if (Strings.isBlank(userName) || Strings.isBlank(email)) {
             throw new RequiredParameterMissingException("Required parameter missing.");
         }
         Map<Long, User> users = userRepository.getAllUsers();

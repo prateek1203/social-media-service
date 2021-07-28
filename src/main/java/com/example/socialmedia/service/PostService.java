@@ -6,22 +6,16 @@ import com.example.socialmedia.exception.RequiredParameterMissingException;
 import com.example.socialmedia.exception.UserNotFoundException;
 import com.example.socialmedia.repository.PostRepository;
 import com.example.socialmedia.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Service
 public class PostService {
 
-    private PostRepository postRepository;
-    private UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     private static final int NEWS_FEED_LIMIT = 20;
 
@@ -31,7 +25,7 @@ public class PostService {
     }
 
     public Post createPost(Long userId, String content) {
-        if (Strings.isBlank(content)){
+        if (Strings.isBlank(content)) {
             throw new RequiredParameterMissingException("Blank Post can not be created");
         }
         Set<Post> postSet = postRepository.getAllPosts();
