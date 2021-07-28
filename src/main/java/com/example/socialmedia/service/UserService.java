@@ -5,12 +5,15 @@ import com.example.socialmedia.exception.RequiredParameterMissingException;
 import com.example.socialmedia.exception.UserNotFoundException;
 import com.example.socialmedia.repository.UserRepository;
 import org.apache.logging.log4j.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 
 public class UserService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -27,7 +30,7 @@ public class UserService {
                 : new User((long) (users.size() + 1), userName, email);
 
         userRepository.createOrUpdateUser(user);
-        System.out.println(user.getName() + " created");
+        LOGGER.info(user.getName() + " created");
         return user;
     }
 
@@ -37,13 +40,13 @@ public class UserService {
         User userToBeFollowed = userRepository.getUserById(followeeId)
                 .orElseThrow(() -> new UserNotFoundException("followee does not exist"));
 
-        System.out.printf("%s wants to follow %s \n", user.getName(), userToBeFollowed.getName());
+        LOGGER.info(String.format("%s wants to follow %s \n", user.getName(), userToBeFollowed.getName()));
         if (!user.getFollowing().contains(userToBeFollowed.getId())) {
             user.getFollowing().add(userToBeFollowed.getId());
             userRepository.createOrUpdateUser(user);
-            System.out.printf("%s follows %s %n", user.getName(), userToBeFollowed.getName());
+            LOGGER.info(String.format("%s follows %s %n", user.getName(), userToBeFollowed.getName()));
         } else {
-            System.out.println(user.getName() + "already follows " + userToBeFollowed.getName());
+            LOGGER.info(user.getName() + "already follows " + userToBeFollowed.getName());
         }
         return user;
     }
@@ -59,9 +62,9 @@ public class UserService {
         if (user.getFollowing().contains(userToBeUnfollowed.getId())) {
             user.getFollowing().remove(followeeId);
             userRepository.createOrUpdateUser(user);
-            System.out.printf("%s unfollows %s %n", user.getName(), userToBeUnfollowed.getName());
+            LOGGER.info(String.format("%s unfollows %s %n", user.getName(), userToBeUnfollowed.getName()));
         } else {
-            System.out.println(user.getName() + " dose not follow " + userToBeUnfollowed.getName());
+            LOGGER.info(user.getName() + " dose not follow " + userToBeUnfollowed.getName());
         }
         return user;
     }
