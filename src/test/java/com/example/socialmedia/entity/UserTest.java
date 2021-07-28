@@ -1,6 +1,5 @@
 package com.example.socialmedia.entity;
 
-import com.example.socialmedia.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

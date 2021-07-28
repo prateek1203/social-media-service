@@ -4,7 +4,6 @@ import com.example.socialmedia.entity.User;
 import com.example.socialmedia.exception.RequiredParameterMissingException;
 import com.example.socialmedia.exception.UserNotFoundException;
 import com.example.socialmedia.repository.UserRepositoryImpl;
-import com.example.socialmedia.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,25 +30,31 @@ public class UserServiceTest {
 
     @Test
     public void shouldFollowUser() {
-        User newUser  = new User(12L, "Name", "Email");
+        // Scenario 1 if user tries to follow same user
+        User newUser = new User(12L, "Name", "Email");
         userRepository.createOrUpdateUser(newUser);
-        User anotherUser  = new User(13L, "Name", "Email");
+        User anotherUser = new User(13L, "Name", "Email");
         userRepository.createOrUpdateUser(anotherUser);
-        unit.follow(12L,13L);
-        unit.follow(12L,13L);
+        unit.follow(12L, 13L);
+        unit.follow(12L, 13L);
         assertThat(newUser.getFollowing()).isEqualTo(Set.of(13L));
+
+        // Scenario 2 user follows user , which was not followed
         User user = unit.follow(1L, 2L);
         assertThat(user.getFollowing()).isEqualTo(Set.of(2L));
     }
 
     @Test
     public void shouldUnfollowUser() {
-        User newUser  = new User(12L, "Name", "Email");
+        // Scenario 1 if user tries to follow the use he/she does not
+        User newUser = new User(12L, "Name", "Email");
         userRepository.createOrUpdateUser(newUser);
-        User anotherUser  = new User(13L, "Name", "Email");
+        User anotherUser = new User(13L, "Name", "Email");
         userRepository.createOrUpdateUser(anotherUser);
-        unit.follow(12L,13L);
-        unit.unfollow(12L,13L);
+        unit.follow(12L, 13L);
+        unit.unfollow(12L, 13L);
+
+        // Scenario 2 unfollow the user which was not followed earlier.
         assertThat(newUser.getFollowing()).isNotEqualTo(Set.of(2L));
         User user = unit.unfollow(1L, 2L);
         assertThat(user.getFollowing()).isNotEqualTo(Set.of(2L));
