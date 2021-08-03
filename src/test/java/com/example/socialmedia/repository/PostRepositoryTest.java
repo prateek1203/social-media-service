@@ -3,13 +3,11 @@ package com.example.socialmedia.repository;
 import com.example.socialmedia.entity.Post;
 import com.example.socialmedia.entity.User;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 public class PostRepositoryTest {
 
     private final PostRepository postRepository = new PostRepositoryImpl();

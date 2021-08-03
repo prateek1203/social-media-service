@@ -6,14 +6,12 @@ import com.example.socialmedia.exception.UserNotFoundException;
 import com.example.socialmedia.repository.UserRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Set;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
 public class UserServiceTest {
 
     private final UserRepositoryImpl userRepository = new UserRepositoryImpl();
@@ -37,11 +35,11 @@ public class UserServiceTest {
         userRepository.createOrUpdateUser(anotherUser);
         unit.follow(12L, 13L);
         unit.follow(12L, 13L);
-        assertThat(newUser.getFollowing()).isEqualTo(Set.of(13L));
+        assertThat(newUser.getFollowing()).isEqualTo(Collections.singleton(13L));
 
         // Scenario 2 user follows user , which was not followed
         User user = unit.follow(1L, 2L);
-        assertThat(user.getFollowing()).isEqualTo(Set.of(2L));
+        assertThat(user.getFollowing()).isEqualTo(Collections.singleton(2L));
     }
 
     @Test
@@ -55,9 +53,9 @@ public class UserServiceTest {
         unit.unfollow(12L, 13L);
 
         // Scenario 2 unfollow the user which was not followed earlier.
-        assertThat(newUser.getFollowing()).isNotEqualTo(Set.of(2L));
+        assertThat(newUser.getFollowing()).isNotEqualTo(Collections.singleton(2L));
         User user = unit.unfollow(1L, 2L);
-        assertThat(user.getFollowing()).isNotEqualTo(Set.of(2L));
+        assertThat(user.getFollowing()).isNotEqualTo(Collections.singleton(2L));
     }
 
     @Test

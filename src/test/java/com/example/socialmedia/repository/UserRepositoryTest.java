@@ -3,12 +3,10 @@ package com.example.socialmedia.repository;
 import com.example.socialmedia.entity.User;
 import com.example.socialmedia.exception.UserNotFoundException;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
 public class UserRepositoryTest {
 
     private final UserRepository userRepository = new UserRepositoryImpl();

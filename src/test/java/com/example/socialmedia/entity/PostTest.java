@@ -2,11 +2,10 @@ package com.example.socialmedia.entity;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+
 public class PostTest {
 
     private Long id;

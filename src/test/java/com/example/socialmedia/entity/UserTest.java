@@ -2,16 +2,11 @@ package com.example.socialmedia.entity;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 public class UserTest {
 
     private long id;
@@ -45,7 +40,7 @@ public class UserTest {
 
     @Test
     public void shouldAddThePost() {
-        unit.setPostIds(Set.of(1L));
+        unit.setPostIds(Collections.singleton(1L));
         unit.getPostIds().stream().findFirst().ifPresent((id) -> assertThat(id).isEqualTo(1L));
 
     }
@@ -54,7 +49,7 @@ public class UserTest {
     public void shouldAddTheFollowees() {
         User user1 = new User(2L, "Tom", "tomD12@abc.com");
         User user2 = new User(3L, "Ivo", "ivo@123.com");
-        unit.setFollowing(Set.of(user1.getId(), user2.getId()));
+        unit.setFollowing(new HashSet<>(Arrays.asList(user1.getId(), user2.getId())));
         assertThat(unit.getFollowing().contains(2L)).isTrue();
         assertThat(unit.getFollowing().contains(3L)).isTrue();
     }
